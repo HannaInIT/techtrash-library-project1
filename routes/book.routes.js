@@ -10,8 +10,6 @@ router.get("/books", (req, res, next) => {
         .populate("author")
         .then((booksFromDB) => {
 
-            console.log(booksFromDB)
-
             const data = {
                 books: booksFromDB
             }
@@ -28,7 +26,20 @@ router.get("/books", (req, res, next) => {
 
 // CREATE: display form
 router.get("/books/create", (req, res, next) => {
-    res.render("books/book-create");
+    Author.find()
+        .then( authorsFromDB => {
+            const data = {
+                authors: authorsFromDB
+            }
+            res.render("books/book-create", data);
+        })
+        .catch((e) => {
+            console.log("Error getting list of authors from DB", e);
+            next(e);
+        });
+
+
+    
 });
 
 
@@ -98,7 +109,6 @@ router.get("/books/:bookId", (req, res, next) => {
     Book.findById(id)
         .populate("author")
         .then(bookFromDB => {
-            console.log(bookFromDB)
             res.render("books/book-details", bookFromDB);
         })
         .catch((e) => {
