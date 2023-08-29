@@ -1,12 +1,16 @@
 const express = require('express');
 const Book = require("../models/Book.model");
+const Author = require("../models/Author.model");
 
 const router = express.Router();
 
 // READ: display all books
 router.get("/books", (req, res, next) => {
     Book.find()
+        .populate("author")
         .then((booksFromDB) => {
+
+            console.log(booksFromDB)
 
             const data = {
                 books: booksFromDB
@@ -92,7 +96,9 @@ router.post('/books/:bookId/delete', (req, res, next) => {
 router.get("/books/:bookId", (req, res, next) => {
     const id = req.params.bookId;
     Book.findById(id)
+        .populate("author")
         .then(bookFromDB => {
+            console.log(bookFromDB)
             res.render("books/book-details", bookFromDB);
         })
         .catch((e) => {
