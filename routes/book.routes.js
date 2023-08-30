@@ -6,6 +6,9 @@ const router = express.Router();
 
 // READ: display all books
 router.get("/books", (req, res, next) => {
+
+    console.log(req.session)
+
     Book.find()
         .populate("author")
         .then((booksFromDB) => {
