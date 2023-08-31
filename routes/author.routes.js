@@ -3,8 +3,6 @@ const Author = require('../models/Author.model');
 
 const router = express.Router();
 
-
-
 router.get("/authors", (req, res, next) => {
     Author.find()
         .then( authorsFromDB => {
@@ -20,9 +18,6 @@ router.get("/authors", (req, res, next) => {
             next(e);
         })
 });
-
-
-
 
 
 module.exports = router;
